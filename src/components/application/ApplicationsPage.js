@@ -1,4 +1,6 @@
 import React,  {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import * as applicationActions from '../../actions/applicationActions';
 
 class  ApplicationsPage extends React.Component{
 
@@ -20,13 +22,19 @@ class  ApplicationsPage extends React.Component{
   }
 
   onClickSave() {
-    alert(`Saving ${this.state.application.title}`);
+    this.props.dispatch(applicationActions.createApplication(this.state.application));
   }
+
+  applicationRow(application, index){
+    return <div key={index}>{application.title}</div>;
+  }
+
 
   render(){
     return (
       <div>
         <h1>Applications</h1>
+        {this.props.applications.map(this.applicationRow)}
         <h2>Add Application</h2>
         <input type="text"
                onChange={this.onTitleChange}
@@ -42,6 +50,18 @@ class  ApplicationsPage extends React.Component{
 
 }
 
-export default ApplicationsPage;
+ApplicationsPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  applications: PropTypes.array.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+  return {
+    applications: state.applications
+  };
+}
+
+
+export default connect(mapStateToProps)(ApplicationsPage);
 
 

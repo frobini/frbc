@@ -1,3 +1,5 @@
+import * as types from './actionTypes';
+
 export function createApplication(application) {
-  return {type: 'CREATE_APPLICATION', application};
+  return {type: types.CREATE_APPLICATION, application};
 }

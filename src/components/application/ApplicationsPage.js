@@ -1,5 +1,6 @@
 import React,  {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import * as applicationActions from '../../actions/applicationActions';
 
 class  ApplicationsPage extends React.Component{
@@ -22,7 +23,7 @@ class  ApplicationsPage extends React.Component{
   }
 
   onClickSave() {
-    this.props.dispatch(applicationActions.createApplication(this.state.application));
+    this.props.actions.createApplication(this.state.application);
   }
 
   applicationRow(application, index){
@@ -51,8 +52,8 @@ class  ApplicationsPage extends React.Component{
 }
 
 ApplicationsPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  applications: PropTypes.array.isRequired
+  applications: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -61,7 +62,12 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(applicationActions, dispatch)
+  };
+}
 
-export default connect(mapStateToProps)(ApplicationsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationsPage);
 
 
